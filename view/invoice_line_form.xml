@@ -1,0 +1,7 @@
+<data>
+    <xpath expr="/form/notebook/page/field[@name='taxes']"
+        position="before">
+        <label name="plastic_account_fiscal"/>
+        <field name="plastic_account_fiscal" colspan="3"/>
+    </xpath>
+</data>

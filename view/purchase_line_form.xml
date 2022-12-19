@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!-- The COPYRIGHT file at the top level of this repository contains the full
+     copyright notices and license terms. -->
+<data>
+    <xpath expr="/form/notebook/page/field[@name='taxes']"
+            position="before">
+        <label name="plastic_account_fiscal"/>
+        <field name="plastic_account_fiscal" colspan="3"/>
+    </xpath>
+</data>
