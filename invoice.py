@@ -156,7 +156,8 @@ class AccountInvoice(PlasticTaxMixin, metaclass=PoolMeta):
         InvoiceLine = pool.get('account.invoice.line')
         removed = []
         for invoice in invoices:
-            if invoice.state in ('posted', 'paid', 'cancelled'):
+            if (invoice.state in ('posted', 'paid', 'cancelled')
+                    or invoice.type == 'out'):
                 continue
             removed.extend(invoice.set_plastic_cost())
 
@@ -194,6 +195,11 @@ class AccountInvoice(PlasticTaxMixin, metaclass=PoolMeta):
 
         plastic_line.amount = plastic_line.on_change_with_amount()
         return plastic_line
+
+    def on_change_party(self):
+        super().on_change_party()
+        if self.party:
+            self.show_plastic_detail = self.party.show_plastic_detail
 
 
 class AccountInvoiceLine(PlasticTaxLineMixin, metaclass=PoolMeta):

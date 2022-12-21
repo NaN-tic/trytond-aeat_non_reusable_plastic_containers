@@ -6,12 +6,13 @@ from . import product
 from . import purchase
 from . import invoice
 from . import configuration
-
+from . import party
 
 def register():
     Pool.register(
         configuration.Configuration,
         product.Product,
+        party.Party,
         module='aeat_non_reusable_plastic_containers', type_='model')
     Pool.register(
         purchase.Purchase,
