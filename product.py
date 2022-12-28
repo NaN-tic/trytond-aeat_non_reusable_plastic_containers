@@ -2,6 +2,7 @@ from trytond.model import fields
 from trytond.pool import PoolMeta
 from .invoice import plastic_account_fiscal
 
+
 class Product(metaclass=PoolMeta):
     __name__ = 'product.product'
 
@@ -16,8 +17,3 @@ class Product(metaclass=PoolMeta):
         ('C', ('Plastic product intended to allow the closure, sale or '
             'presentation of non-reusable plastic containers containing '
             'plastic')),], 'PLastic Key')
-
-
-
-
-
