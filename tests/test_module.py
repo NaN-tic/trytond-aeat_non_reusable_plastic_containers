@@ -9,10 +9,7 @@ from trytond.tests.test_tryton import ModuleTestCase
 class AeatNonReusablePlasticContainersTestCase(ModuleTestCase):
     'Test Aeat Non Reusable Plastic Containers module'
     module = 'aeat_non_reusable_plastic_containers'
+    extras = ['purchase']
 
 
-def suite():
-    suite = trytond.tests.test_tryton.suite()
-    suite.addTests(unittest.TestLoader().loadTestsFromTestCase(
-        AeatNonReusablePlasticContainersTestCase))
-    return suite
+del ModuleTestCase

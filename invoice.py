@@ -20,6 +20,7 @@ plastic_account_fiscal = fields.Selection([
     ('L', "L"),
     ('M', 'M'),], 'Plastic Fiscal Regime')
 
+
 class PlasticTaxMixin(object):
     __slots__ = ()
 
@@ -101,7 +102,6 @@ class PlasticTaxLineMixin(object):
     def on_change_with_plastic_account_fiscal(self):
         if self.product and self.product.plastic_account_fiscal:
             return self.product.plastic_account_fiscal
-
 
 
 class AccountInvoice(PlasticTaxMixin, metaclass=PoolMeta):
