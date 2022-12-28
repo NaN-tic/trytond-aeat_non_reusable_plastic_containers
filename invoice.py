@@ -6,60 +6,19 @@ from trytond.modules.product import round_price
 
 plastic_account_fiscal = fields.Selection([
     (None, ''),
-    ('A', ('Subjection and non-exemption Law 7/2022, of April 8,'
-        'Intra-community acquisition subject and not exempt of products '
-        'subject to the tax.')),
-    ('B', ('Non-subjection of article 73 c) Law 7/2022, of April 8 '
-        'Intra-community acquisition of paints, inks, lacquers and adhesives '
-        'designed to be incorporated into taxable products.')),
-    ('C', ('Non-subjection of article 73 d) Law 7/2022, of April 8,'
-        'Intra-community acquisition of containers of art. 68.1a) of the Law '
-        'not designed to be delivered together with the goods.')),
-    ('D',('Exemption article 75 a) 1º Law 7/2022, of April 8'
-         'Intra-community acquisition of containers of art. 68.1a) of the Law '
-         'intended to provide its function in medicines, sanitary products, '
-         'food for special medical purposes, infant formula for hospital use or'
-         'hazardous waste of sanitary origin')),
-    ('E', ('Exemption article 75 a) 2º Law 7/2022, of April 8 Intra-community '
-        'acquisition of products of art. 68.1b) of the Law intended to obtain'
-        'containers of art. 68.1a) of the Law for medicines, health products, '
-        'food for special medical purposes, formulas for infants for hospital '
-        'use or hazardous waste of sanitary origin.')),
-    ('F', ('Exemption article 75 a) 3º Law 7/2022, of April 8, Intra-community '
-        'acquisition of products of art. 68.1c) of the Law intended to allow '
-        'the closing, marketing or presentation of non-reusable containers for '
-        'medicines, health products, food for special medical purposes, infant '
-        'formula for hospital use or hazardous waste of sanitary origin.')),
-    ('G', ('Exemption article 75 b) Law 7/2022, of April 8 Intra-community '
-        'acquisition of containers of art. 68.1a) of the Law that are '
-        'introduced into Spanish territory providing their function in '
-        'medicines, health products, food for special medical purposes, '
-        'formulas for infants for hospital use or hazardous waste of sanitary '
-        'origin.')),
-    ('H', ('Exemption article 75 c) Law 7/2022, of April 8, Intra-community '
-        'acquisition of plastic rolls used in bales or bales for silage of '
-        'fodder or cereals for agricultural or livestock use')),
-    ('I', ('Exemption article 75 d) Law 7/2022, of April 8,  Intra-community '
-        'acquisition of products subject to the tax that, prior to the end of '
-        'the period for submitting the corresponding self-assessment, are '
-        'intended to be sent outside Spanish territory (directly by the '
-        'intra-community acquirer, or by a third party on his behalf or on his '
-        'behalf).')),
-    ('J', ('Exemption article 75 e) Law 7/2022, of April 8 Intra-community '
-        'acquisition of taxable products that, prior to the end of the deadline'
-        ' for filing the corresponding self-assessment, have ceased to be '
-        'suitable for use or have been destroyed.')),
-    ('K', ('Exemption article 75 f) Law 7/2022, of April 8 Intra-community '
-        'acquisition of containers of art. 68.1a) of the Law provided that the '
-        'total weight of non-recycled plastic contained in said containers does'
-        ' not exceed 5 kilograms in one month.')),
-    ('L', ('Exemption article 75 g) 1º Law 7/2022, of April 8 Intra-community '
-        'acquisition of products of art. 68.1b) of the Law when they are not '
-        'going to be used to obtain containers of art. 68.1a) of the Law.')),
-    ('M', ('Exemption article 75 g) 2º Law 7/2022, of April 8 Intra-community '
-        'acquisition of products of article 68.1c) of the Law when they are '
-        'not going to be used to allow the closing, commercialization or '
-        'presentation of non-reusable containers.')),], 'Plastic Fiscal Regime')
+    ('A', 'A'),
+    ('B', 'B'),
+    ('C', 'B'),
+    ('D', 'D'),
+    ('E', 'E'),
+    ('F', 'F'),
+    ('G', 'G'),
+    ('H', 'H'),
+    ('I', 'I'),
+    ('J', 'J'),
+    ('K', 'K'),
+    ('L', "L"),
+    ('M', 'M'),], 'Plastic Fiscal Regime')
 
 
 class PlasticTaxMixin(object):
