@@ -96,7 +96,7 @@ class PlasticTaxLineMixin(object):
         virginity = Decimal(self.product and self.product.ipnr_virginity
             or 0) / 100
 
-        return Decimal(quantity * virginity).quantize(10**-3)
+        return round(quantity * virginity, 3)
 
     @fields.depends('product')
     def on_change_with_plastic_account_fiscal(self):
