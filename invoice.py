@@ -1,5 +1,6 @@
 from trytond.pool import Pool, PoolMeta
 from trytond.model import dualmethod, fields
+from trytond.pyson import Eval
 from decimal import Decimal
 from trytond.modules.product import round_price
 
@@ -106,7 +107,10 @@ class PlasticTaxLineMixin(object):
 class AccountInvoice(PlasticTaxMixin, metaclass=PoolMeta):
     __name__ = 'account.invoice'
 
-    show_plastic_detail = fields.Boolean('Show Plastic Detail')
+    show_plastic_detail = fields.Boolean('Show Plastic Detail',
+        states={
+            'invisible': Eval('type') == 'in'
+        }, depends=['type'])
 
     @dualmethod
     def update_taxes(cls, invoices, exception=False):
