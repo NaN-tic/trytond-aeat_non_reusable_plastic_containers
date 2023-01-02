@@ -2,6 +2,11 @@
 <!-- The COPYRIGHT file at the top level of this repository contains the full
      copyright notices and license terms. -->
 <data>
+    <xpath expr="/form/notebook/page/field[@name='quantity']"
+            position="after">
+        <label name="manual_kg"/>
+        <field name="manual_kg"/>
+    </xpath>
     <xpath expr="/form/notebook/page/field[@name='taxes']"
             position="before">
         <label name="plastic_account_fiscal"/>

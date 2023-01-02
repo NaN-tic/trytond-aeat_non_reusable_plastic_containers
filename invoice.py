@@ -1,6 +1,7 @@
 from trytond.pool import Pool, PoolMeta
 from trytond.model import dualmethod, fields
 from trytond.pyson import Eval
+from trytond.transaction import Transaction
 from decimal import Decimal
 from trytond.modules.product import round_price
 
@@ -34,13 +35,18 @@ class PlasticTaxMixin(object):
 
         removed = []
         lines = list(self.lines or [])
-        plastic_kgs = self.get_plastic_kg_ipnr()
-        for line in lines:
-            if line.type == 'line' and line.product == plastic_product:
+        for line in self.lines:
+            if line.manual_kg:
+                return []
+            if line.product == plastic_product:
                 lines.remove(line)
                 removed.append(line)
 
-        for ipnr, plastic_kg in plastic_kgs.items():
+        for line in lines:
+            if not (line.type == 'line' and line.product and line.product.ipnr):
+                continue
+            plastic_kg = line.get_plastic_base_quantity()
+            ipnr = line.product.ipnr
             plastic_line = self.get_plastic_line(plastic_kg, ipnr)
             plastic_line.save()
             lines.append(plastic_line)
@@ -96,7 +102,7 @@ class PlasticTaxLineMixin(object):
         virginity = Decimal(self.product and self.product.ipnr_virginity
             or 0) / 100
 
-        return round(quantity * virginity, 3)
+        return round(float(quantity) * float(virginity), 3)
 
     @fields.depends('product')
     def on_change_with_plastic_account_fiscal(self):
@@ -116,6 +122,10 @@ class AccountInvoice(PlasticTaxMixin, metaclass=PoolMeta):
     def update_taxes(cls, invoices, exception=False):
         pool = Pool()
         InvoiceLine = pool.get('account.invoice.line')
+        context = Transaction().context
+        if context.get('no_ipnr', False):
+            return super().update_taxes(invoices, exception)
+
         removed = []
         for invoice in invoices:
             if (invoice.state in ('posted', 'paid', 'cancelled')
@@ -164,7 +174,25 @@ class AccountInvoice(PlasticTaxMixin, metaclass=PoolMeta):
             self.show_plastic_detail = self.party.show_plastic_detail
 
 
+    @classmethod
+    def create(cls, vlist):
+        invoices = super().create(vlist)
+        cls.update_taxes(invoices)
+        return invoices
+
 class AccountInvoiceLine(PlasticTaxLineMixin, metaclass=PoolMeta):
     __name__ = 'account.invoice.line'
 
     plastic_account_fiscal = plastic_account_fiscal
+    manual_kg = fields.Float('Manual Kg',
+        digits=(16, Eval('unit_digits', 2)),
+        states={
+            'invisible': Eval('type') != 'line',
+            'readonly': Eval('invoice_state') != 'draft',
+        },
+        depends=['type', 'unit_digits', 'invoice_state'])
+
+    @fields.depends('quantity', 'manual_kg', methods=['on_change_with_amount'])
+    def on_change_manual_kg(self):
+        self.quantity = self.manual_kg
+        self.amount = self.on_change_with_amount()
