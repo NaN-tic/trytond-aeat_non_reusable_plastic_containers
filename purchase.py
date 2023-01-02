@@ -1,7 +1,10 @@
 from trytond.pool import Pool, PoolMeta
+from trytond.transaction import Transaction
 from .invoice import (PlasticTaxMixin, PlasticTaxLineMixin,
     plastic_account_fiscal)
 from trytond.modules.product import round_price
+from trytond.model import fields
+from trytond.pyson import Eval
 
 
 class Purchase(PlasticTaxMixin, metaclass=PoolMeta):
@@ -36,7 +39,6 @@ class Purchase(PlasticTaxMixin, metaclass=PoolMeta):
     def get_plastic_line(self, quantity, unit_price):
         pool = Pool()
         PurchaseLine = pool.get('purchase.line')
-
         Configuration = pool.get('account.configuration')
         configuration = Configuration(1)
         plastic_product = configuration.tax_plastic_product
@@ -62,11 +64,26 @@ class Purchase(PlasticTaxMixin, metaclass=PoolMeta):
         plastic_line.amount = plastic_line.on_change_with_amount()
         return plastic_line
 
+    def create_invoice(self):
+        with Transaction().set_context(no_ipnr=True):
+            return super().create_invoice()
 
 class PurchaseLine(PlasticTaxLineMixin, metaclass=PoolMeta):
     __name__ = 'purchase.line'
 
     plastic_account_fiscal = plastic_account_fiscal
+    manual_kg = fields.Float('Manual Kg',
+        digits=(16, Eval('unit_digits', 2)),
+        states={
+            'invisible': Eval('type') != 'line',
+            'readonly': Eval('purchase_state') != 'draft',
+        },
+        depends=['type', 'unit_digits', 'purchase_state'])
+
+    @fields.depends('quantity', 'manual_kg', methods=['on_change_with_amount'])
+    def on_change_manual_kg(self):
+        self.quantity = self.manual_kg
+        self.amount = self.on_change_with_amount()
 
     def get_invoice_line(self):
         pool = Pool()

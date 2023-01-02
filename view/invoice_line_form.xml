@@ -4,4 +4,9 @@
         <label name="plastic_account_fiscal"/>
         <field name="plastic_account_fiscal" colspan="3"/>
     </xpath>
+    <xpath expr="/form/notebook/page/field[@name='quantity']"
+        position="after">
+        <label name="manual_kg"/>
+        <field name="manual_kg"/>
+    </xpath>
 </data>
