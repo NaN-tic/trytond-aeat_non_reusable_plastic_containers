@@ -23,6 +23,15 @@ class Purchase(PlasticTaxMixin, metaclass=PoolMeta):
             cls.update_plastic_tax_line(update_purchases)
 
     @classmethod
+    def copy(cls, purchases, default=None):
+        if default is None:
+            default = {}
+        default = default.copy()
+        copy_purchases = super().copy(purchases, default=default)
+        cls.update_plastic_tax_line(copy_purchases)
+        return copy_purchases
+
+    @classmethod
     def update_plastic_tax_line(cls, purchases):
         pool = Pool()
         PurchaseLine = pool.get('purchase.line')
