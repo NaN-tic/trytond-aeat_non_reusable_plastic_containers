@@ -10,7 +10,7 @@ plastic_account_fiscal = fields.Selection([
     (None, ''),
     ('A', 'A'),
     ('B', 'B'),
-    ('C', 'B'),
+    ('C', 'C'),
     ('D', 'D'),
     ('E', 'E'),
     ('F', 'F'),
