@@ -180,17 +180,18 @@ class AccountInvoice(PlasticTaxMixin, metaclass=PoolMeta):
         cls.update_taxes(invoices)
         return invoices
 
+
 class AccountInvoiceLine(PlasticTaxLineMixin, metaclass=PoolMeta):
     __name__ = 'account.invoice.line'
 
     plastic_account_fiscal = plastic_account_fiscal
     manual_kg = fields.Float('Manual Kg',
-        digits=(16, Eval('unit_digits', 2)),
+        digits='unit',
         states={
             'invisible': Eval('type') != 'line',
             'readonly': Eval('invoice_state') != 'draft',
         },
-        depends=['type', 'unit_digits', 'invoice_state'])
+        depends=['type', 'invoice_state'])
 
     @fields.depends('quantity', 'manual_kg', methods=['on_change_with_amount'])
     def on_change_manual_kg(self):
