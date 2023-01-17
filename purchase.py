@@ -77,17 +77,18 @@ class Purchase(PlasticTaxMixin, metaclass=PoolMeta):
         with Transaction().set_context(no_ipnr=True):
             return super().create_invoice()
 
+
 class PurchaseLine(PlasticTaxLineMixin, metaclass=PoolMeta):
     __name__ = 'purchase.line'
 
     plastic_account_fiscal = plastic_account_fiscal
     manual_kg = fields.Float('Manual Kg',
-        digits=(16, Eval('unit_digits', 2)),
+        digits='unit',
         states={
             'invisible': Eval('type') != 'line',
             'readonly': Eval('purchase_state') != 'draft',
         },
-        depends=['type', 'unit_digits', 'purchase_state'])
+        depends=['type', 'purchase_state'])
 
     @fields.depends('quantity', 'manual_kg', methods=['on_change_with_amount'])
     def on_change_manual_kg(self):
