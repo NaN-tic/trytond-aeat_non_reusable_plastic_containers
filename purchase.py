@@ -39,7 +39,7 @@ class Purchase(PlasticTaxMixin, metaclass=PoolMeta):
         for purchase in purchases:
             if purchase.state in ('posted', 'paid', 'cancelled'):
                 continue
-            removed.extend(purchase.set_plastic_cost())
+            removed.extend(purchase.set_plastic_cost(save=True))
 
         if removed:
             PurchaseLine.delete(removed)
