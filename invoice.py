@@ -26,7 +26,7 @@ plastic_account_fiscal = fields.Selection([
 class PlasticTaxMixin(object):
     __slots__ = ()
 
-    def set_plastic_cost(self):
+    def set_plastic_cost(self, save=False):
         pool = Pool()
         Configuration = pool.get('account.configuration')
         configuration = Configuration(1)
@@ -42,13 +42,14 @@ class PlasticTaxMixin(object):
                 lines.remove(line)
                 removed.append(line)
 
-        for line in lines:
+        for line in lines.copy():
             if not (line.type == 'line' and line.product and line.product.ipnr):
                 continue
             plastic_kg = line.get_plastic_base_quantity()
             ipnr = line.product.ipnr
             plastic_line = self.get_plastic_line(plastic_kg, ipnr)
-            plastic_line.save()
+            if save:
+                plastic_line.save()
             lines.append(plastic_line)
 
         self.lines = lines
@@ -118,26 +119,14 @@ class AccountInvoice(PlasticTaxMixin, metaclass=PoolMeta):
             'invisible': Eval('type') == 'in'
         }, depends=['type'])
 
-    @dualmethod
-    def update_taxes(cls, invoices, exception=False):
-        pool = Pool()
-        InvoiceLine = pool.get('account.invoice.line')
+    @fields.depends('lines', methods=['set_plastic_cost'])
+    def on_change_lines(self):
         context = Transaction().context
         if context.get('no_ipnr', False):
-            return super().update_taxes(invoices, exception)
+            return super().on_change_lines()
 
-        removed = []
-        for invoice in invoices:
-            if (invoice.state in ('posted', 'paid', 'cancelled')
-                    or invoice.type == 'out'):
-                continue
-            removed.extend(invoice.set_plastic_cost())
+        self.set_plastic_cost()
 
-        if removed:
-            InvoiceLine.delete(removed)
-
-        invoices = cls.browse(invoices)
-        super().update_taxes(invoices, exception)
 
     def get_plastic_line(self, quantity, unit_price):
         pool = Pool()
