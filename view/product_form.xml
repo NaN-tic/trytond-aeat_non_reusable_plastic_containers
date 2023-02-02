@@ -10,8 +10,8 @@ this repository contains the full copyright notices and license terms. -->
             <field name="ipnr_virginity"/>
             <label name="plastic_key"/>
             <field name="plastic_key" colspan="3"/>
-            <label name="plastic_account_fiscal"/>
-            <field name="plastic_account_fiscal" colspan="3"/>
+            <label name="plastic_fiscal_regime"/>
+            <field name="plastic_fiscal_regime" colspan="3"/>
         </page>
     </xpath>
 </data>
