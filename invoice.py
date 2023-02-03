@@ -119,11 +119,12 @@ class AccountInvoice(PlasticTaxMixin, metaclass=PoolMeta):
             'invisible': Eval('type') == 'in'
         }, depends=['type'])
 
-    @fields.depends('lines', methods=['set_plastic_cost'])
+    @fields.depends('lines', 'type', methods=['set_plastic_cost'])
     def on_change_lines(self):
         context = Transaction().context
-        if context.get('no_ipnr', False):
-            return super().on_change_lines()
+        if context.get('no_ipnr', False) or self.type == 'out':
+            super().on_change_lines()
+            return
 
         self.set_plastic_cost()
 
