@@ -48,6 +48,8 @@ class PlasticTaxMixin(object):
             plastic_kg = line.get_plastic_base_quantity()
             ipnr = line.product.ipnr
             plastic_line = self.get_plastic_line(plastic_kg, ipnr)
+            if hasattr(line, 'account'):
+                plastic_line.account = line.account
             if save:
                 plastic_line.save()
             lines.append(plastic_line)
@@ -149,7 +151,7 @@ class AccountInvoice(PlasticTaxMixin, metaclass=PoolMeta):
             type='line',
             product=plastic_product,
             quantity=quantity,
-            unit=plastic_product.default_uom
+            unit=plastic_product.default_uom,
         )
         plastic_line.on_change_product()
         if unit_price is not None:
