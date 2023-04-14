@@ -124,12 +124,9 @@ class AccountInvoice(PlasticTaxMixin, metaclass=PoolMeta):
     @fields.depends('lines', 'type', methods=['set_plastic_cost'])
     def on_change_lines(self):
         context = Transaction().context
-        if context.get('no_ipnr', False) or self.type == 'out':
-            super().on_change_lines()
-            return
-
-        self.set_plastic_cost()
-
+        if context.get('no_ipnr', True) or self.type == 'in':
+            self.set_plastic_cost()
+        super().on_change_lines()
 
     def get_plastic_line(self, quantity, unit_price):
         pool = Pool()
