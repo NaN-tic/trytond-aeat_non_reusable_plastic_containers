@@ -1,26 +1,24 @@
 from trytond.pool import Pool, PoolMeta
-from trytond.model import dualmethod, fields
+from trytond.model import ModelSQL, ModelView, fields
 from trytond.pyson import Eval
 from trytond.transaction import Transaction
 from decimal import Decimal
 from trytond.modules.product import round_price
 
 
-plastic_account_fiscal = fields.Selection([
-    (None, ''),
-    ('A', 'A'),
-    ('B', 'B'),
-    ('C', 'C'),
-    ('D', 'D'),
-    ('E', 'E'),
-    ('F', 'F'),
-    ('G', 'G'),
-    ('H', 'H'),
-    ('I', 'I'),
-    ('J', 'J'),
-    ('K', 'K'),
-    ('L', "L"),
-    ('M', 'M'),], 'Plastic Fiscal Regime')
+plastic_fiscal_regime = fields.Many2One('account.plastic.fiscal.regime', 'Plastic Fiscal Regime')
+
+
+class PlasticFiscalRegime(ModelSQL, ModelView):
+    'Plastic Fiscal Regime'
+    __name__ = 'account.plastic.fiscal.regime'
+    name = fields.Char('Name', required=True)
+    description = fields.Char('Description')
+    aeat = fields.Boolean('AEAT', readonly=True)
+    printable = fields.Boolean('Printable')
+
+    def get_rec_name(self, name):
+        return self.name + (self.description or '')
 
 
 class PlasticTaxMixin(object):
@@ -98,8 +96,8 @@ class PlasticTaxLineMixin(object):
         if not quantity:
             return Decimal('0')
 
-        if self.plastic_account_fiscal and (
-                self.plastic_account_fiscal not in ('A')):
+        if self.plastic_fiscal_regime and (
+                self.plastic_fiscal_regime.name not in ('A')):
             quantity = 0
 
         virginity = Decimal(self.product and self.product.ipnr_virginity
@@ -108,9 +106,9 @@ class PlasticTaxLineMixin(object):
         return round(float(quantity) * float(virginity), 3)
 
     @fields.depends('product')
-    def on_change_with_plastic_account_fiscal(self):
-        if self.product and self.product.plastic_account_fiscal:
-            return self.product.plastic_account_fiscal
+    def on_change_with_plastic_fiscal_regime(self):
+        if self.product and self.product.plastic_fiscal_regime:
+            return self.product.plastic_fiscal_regime
 
 
 class AccountInvoice(PlasticTaxMixin, metaclass=PoolMeta):
@@ -174,7 +172,7 @@ class AccountInvoice(PlasticTaxMixin, metaclass=PoolMeta):
 class AccountInvoiceLine(PlasticTaxLineMixin, metaclass=PoolMeta):
     __name__ = 'account.invoice.line'
 
-    plastic_account_fiscal = plastic_account_fiscal
+    plastic_fiscal_regime = plastic_fiscal_regime
     manual_kg = fields.Float('Manual Kg',
         digits=(16, Eval('unit_digits', 2)),
         states={

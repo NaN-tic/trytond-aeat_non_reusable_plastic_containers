@@ -1,7 +1,7 @@
 from trytond.pool import Pool, PoolMeta
 from trytond.transaction import Transaction
 from .invoice import (PlasticTaxMixin, PlasticTaxLineMixin,
-    plastic_account_fiscal)
+    plastic_fiscal_regime)
 from trytond.modules.product import round_price
 from trytond.model import fields
 from trytond.pyson import Eval
@@ -77,10 +77,11 @@ class Purchase(PlasticTaxMixin, metaclass=PoolMeta):
         with Transaction().set_context(no_ipnr=True):
             return super().create_invoice()
 
+
 class PurchaseLine(PlasticTaxLineMixin, metaclass=PoolMeta):
     __name__ = 'purchase.line'
 
-    plastic_account_fiscal = plastic_account_fiscal
+    plastic_fiscal_regime = plastic_fiscal_regime
     manual_kg = fields.Float('Manual Kg',
         digits=(16, Eval('unit_digits', 2)),
         states={
