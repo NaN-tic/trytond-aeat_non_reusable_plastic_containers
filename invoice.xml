@@ -2,6 +2,93 @@
 <!-- This file is part of Tryton.  The COPYRIGHT file at the top level of
 this repository contains the full copyright notices and license terms. -->
 <tryton>
+    <data>
+        <record model="ir.ui.view" id="plastic_fiscal_regime_view_tree">
+            <field name="model">account.plastic.fiscal.regime</field>
+            <field name="type">tree</field>
+            <field name="name">plastic_fiscal_regime_tree</field>
+        </record>
+        <record model="ir.ui.view" id="plastic_fiscal_regime_view_form">
+            <field name="model">account.plastic.fiscal.regime</field>
+            <field name="type">form</field>
+            <field name="name">plastic_fiscal_regime_form</field>
+        </record>
+        <record model="ir.action.act_window" id="act_plastic_fiscal_regime_form">
+        <field name="name">Plastic Fiscal Regime</field>
+            <field name="res_model">account.plastic.fiscal.regime</field>
+        </record>
+        <record model="ir.action.act_window.view" id="act_plastic_fiscal_regime_view1">
+            <field name="sequence" eval="10"/>
+            <field name="view" ref="plastic_fiscal_regime_view_tree"/>
+            <field name="act_window" ref="act_plastic_fiscal_regime_form"/>
+        </record>
+
+        <record model="ir.action.act_window.view" id="act_plastic_fiscal_regime_view2">
+            <field name="sequence" eval="20"/>
+            <field name="view" ref="plastic_fiscal_regime_view_form"/>
+            <field name="act_window" ref="act_plastic_fiscal_regime_form"/>
+        </record>
+
+        <menuitem
+                parent="account.menu_account_configuration"
+                action="act_plastic_fiscal_regime_form"
+                sequence="10"
+                id="menu_plastic_fiscal_regime"/>
+
+          <!-- AEAT Plastic Fiscal Regimes -->
+        <record model="account.plastic.fiscal.regime" id="plastic_fiscal_regime_a">
+            <field name="name">A</field>
+            <field name="aeat">True</field>
+        </record>
+        <record model="account.plastic.fiscal.regime" id="plastic_fiscal_regime_b">
+            <field name="name">B</field>
+            <field name="aeat">True</field>
+        </record>
+        <record model="account.plastic.fiscal.regime" id="plastic_fiscal_regime_c">
+            <field name="name">C</field>
+            <field name="aeat">True</field>
+        </record>
+        <record model="account.plastic.fiscal.regime" id="plastic_fiscal_regime_d">
+            <field name="name">D</field>
+            <field name="aeat">True</field>
+        </record>
+        <record model="account.plastic.fiscal.regime" id="plastic_fiscal_regime_e">
+            <field name="name">E</field>
+            <field name="aeat">True</field>
+        </record>
+        <record model="account.plastic.fiscal.regime" id="plastic_fiscal_regime_f">
+            <field name="name">F</field>
+            <field name="aeat">True</field>
+        </record>
+        <record model="account.plastic.fiscal.regime" id="plastic_fiscal_regime_g">
+            <field name="name">G</field>
+            <field name="aeat">True</field>
+        </record>
+        <record model="account.plastic.fiscal.regime" id="plastic_fiscal_regime_h">
+            <field name="name">H</field>
+            <field name="aeat">True</field>
+        </record>
+        <record model="account.plastic.fiscal.regime" id="plastic_fiscal_regime_i">
+            <field name="name">I</field>
+            <field name="aeat">True</field>
+        </record>
+        <record model="account.plastic.fiscal.regime" id="plastic_fiscal_regime_j">
+            <field name="name">J</field>
+            <field name="aeat">True</field>
+        </record>
+        <record model="account.plastic.fiscal.regime" id="plastic_fiscal_regime_k">
+            <field name="name">K</field>
+            <field name="aeat">True</field>
+        </record>
+        <record model="account.plastic.fiscal.regime" id="plastic_fiscal_regime_l">
+            <field name="name">L</field>
+            <field name="aeat">True</field>
+        </record>
+        <record model="account.plastic.fiscal.regime" id="plastic_fiscal_regime_m">
+            <field name="name">M</field>
+            <field name="aeat">True</field>
+        </record>
+    </data>
     <data depends="account_invoice">
         <record model="ir.ui.view" id="invoice_line_view_form">
             <field name="model">account.invoice.line</field>

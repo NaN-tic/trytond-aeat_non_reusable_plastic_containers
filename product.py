@@ -1,6 +1,7 @@
 from trytond.model import fields
 from trytond.pool import PoolMeta
-from .invoice import plastic_account_fiscal
+from .invoice import plastic_fiscal_regime
+
 
 
 class Product(metaclass=PoolMeta):
@@ -8,7 +9,7 @@ class Product(metaclass=PoolMeta):
 
     ipnr_virginity = fields.Numeric('IPNR Virginity', digits=(16, 2))
     ipnr = fields.Numeric('IPNR', digits=(16, 2))
-    plastic_account_fiscal = plastic_account_fiscal
+    plastic_fiscal_regime = plastic_fiscal_regime
     plastic_key = fields.Selection([
         (None, ''),
         ('A', 'Non-reusable container that contains plastic',),
