@@ -1,0 +1,10 @@
+<form>
+    <label name="name"/>
+    <field name="name"/>
+    <label name="description"/>
+    <field name="description"/>
+    <label name="aeat"/>
+    <field name="aeat"/>
+    <label name="printable"/>
+    <field name="printable"/>
+</form>

@@ -13,6 +13,7 @@ def register():
         configuration.Configuration,
         product.Product,
         party.Party,
+        invoice.PlasticFiscalRegime,
         module='aeat_non_reusable_plastic_containers', type_='model')
     Pool.register(
         purchase.Purchase,
