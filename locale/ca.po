@@ -16,7 +16,7 @@ msgstr "Manual Kg"
 
 msgctxt "field:account.invoice.line,plastic_fiscal_regime:"
 msgid "Plastic Fiscal Regime"
-msgstr "Regim Fiscal Plàstic"
+msgstr "Règim Fiscal Plàstic"
 
 msgctxt "field:account.plastic.fiscal.regime,aeat:"
 msgid "AEAT"
@@ -48,7 +48,7 @@ msgstr "Virginitat IPNR"
 
 msgctxt "field:product.product,plastic_fiscal_regime:"
 msgid "Plastic Fiscal Regime"
-msgstr "Regim Fiscal Plàstic"
+msgstr "Règim Fiscal Plàstic"
 
 msgctxt "field:product.product,plastic_key:"
 msgid "PLastic Key"
@@ -56,15 +56,15 @@ msgstr "Clau de plàstic"
 
 msgctxt "model:account.plastic.fiscal.regime,name:"
 msgid "Plastic Fiscal Regime"
-msgstr "Regim Fiscal Plàstic"
+msgstr "Règim Fiscal Plàstic"
 
 msgctxt "model:ir.action,name:act_plastic_fiscal_regime_form"
 msgid "Plastic Fiscal Regime"
-msgstr "Regim Fiscal Plàstic"
+msgstr "Règim Fiscal Plàstic"
 
 msgctxt "model:ir.ui.menu,name:menu_plastic_fiscal_regime"
 msgid "Plastic Fiscal Regime"
-msgstr "Regim Fiscal Plàstic"
+msgstr "Règim Fiscal Plàstic"
 
 msgctxt "selection:product.product,plastic_key:"
 msgid "Non-reusable container that contains plastic"
