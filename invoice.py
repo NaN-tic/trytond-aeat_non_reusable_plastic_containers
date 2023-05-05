@@ -108,7 +108,7 @@ class PlasticTaxLineMixin(object):
     @fields.depends('product')
     def on_change_with_plastic_fiscal_regime(self):
         if self.product and self.product.plastic_fiscal_regime:
-            return self.product.plastic_fiscal_regime
+            return self.product.plastic_fiscal_regime.id
 
 
 class AccountInvoice(PlasticTaxMixin, metaclass=PoolMeta):

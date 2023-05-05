@@ -43,7 +43,6 @@ class Purchase(PlasticTaxMixin, metaclass=PoolMeta):
 
         if removed:
             PurchaseLine.delete(removed)
-        purchases = cls.browse(purchases)
 
     def get_plastic_line(self, quantity, unit_price):
         pool = Pool()
