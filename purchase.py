@@ -11,6 +11,12 @@ class Purchase(PlasticTaxMixin, metaclass=PoolMeta):
     __name__ = 'purchase.purchase'
 
     @classmethod
+    def create(cls, vlist):
+        purchases = super().create(vlist)
+        cls.update_plastic_tax_line(purchases)
+        return purchases
+
+    @classmethod
     def write(cls, *args):
         actions = iter(args)
         all_purchases = []
@@ -21,15 +27,6 @@ class Purchase(PlasticTaxMixin, metaclass=PoolMeta):
         super().write(*args)
         if update_purchases:
             cls.update_plastic_tax_line(update_purchases)
-
-    @classmethod
-    def copy(cls, purchases, default=None):
-        if default is None:
-            default = {}
-        default = default.copy()
-        copy_purchases = super().copy(purchases, default=default)
-        cls.update_plastic_tax_line(copy_purchases)
-        return copy_purchases
 
     @classmethod
     def update_plastic_tax_line(cls, purchases):
@@ -104,3 +101,4 @@ class PurchaseLine(PlasticTaxLineMixin, metaclass=PoolMeta):
             return []
 
         return super().get_invoice_line()
+
