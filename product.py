@@ -7,8 +7,8 @@ from .invoice import plastic_fiscal_regime
 class Product(metaclass=PoolMeta):
     __name__ = 'product.product'
 
-    ipnr_virginity = fields.Numeric('IPNR Virginity', digits=(16, 2))
-    ipnr = fields.Numeric('IPNR', digits=(16, 2))
+    ipnr_virginity = fields.Numeric('IPNR Virginity', digits=(16, 4))
+    ipnr = fields.Numeric('IPNR', digits=(16, 4))
     plastic_fiscal_regime = plastic_fiscal_regime
     plastic_key = fields.Selection([
         (None, ''),
