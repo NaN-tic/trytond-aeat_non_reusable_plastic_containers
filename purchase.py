@@ -60,7 +60,8 @@ class Purchase(PlasticTaxMixin, metaclass=PoolMeta):
             type='line',
             product=plastic_product,
             quantity=quantity,
-            unit=plastic_product.default_uom
+            unit=plastic_product.default_uom,
+            stock=True,
         )
         plastic_line.on_change_product()
         if unit_price is not None:
