@@ -117,7 +117,7 @@ class AccountInvoice(PlasticTaxMixin, metaclass=PoolMeta):
     show_plastic_detail = fields.Boolean('Show Plastic Detail',
         states={
             'invisible': Eval('type') == 'in'
-        }, depends=['type'])
+        })
 
     @fields.depends('lines', 'type', methods=['set_plastic_cost'])
     def on_change_lines(self):
