@@ -83,8 +83,7 @@ class PurchaseLine(PlasticTaxLineMixin, metaclass=PoolMeta):
         states={
             'invisible': Eval('type') != 'line',
             'readonly': Eval('purchase_state') != 'draft',
-        },
-        depends=['type', 'purchase_state'])
+        })
 
     @fields.depends('quantity', 'manual_kg', methods=['on_change_with_amount'])
     def on_change_manual_kg(self):
