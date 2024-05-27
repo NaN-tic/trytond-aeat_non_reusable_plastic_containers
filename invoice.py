@@ -82,19 +82,18 @@ class PlasticTaxLineMixin(object):
         quantity = None
 
         if not self.unit:
-            return Decimal('0')
+            return 0
 
         if kg.category == self.unit.category:
             quantity = Uom.compute_qty(self.unit, self.quantity or 0, kg)
 
         if (hasattr(self, 'show_info_unit') and self.show_info_unit
                 and self.info_unit.category == kg.category):
-            quantity = Uom.compute_qty(self.info_unit, self.info_quantity or 0,
-                kg, round=True)
-            quantity = Decimal(quantity)
+            quantity = Uom.compute_qty(
+                self.info_unit, self.info_quantity or 0, kg, round=True)
 
         if not quantity:
-            return Decimal('0')
+            return 0
 
         if self.plastic_fiscal_regime and (
                 self.plastic_fiscal_regime.name not in ('A')):
@@ -103,7 +102,10 @@ class PlasticTaxLineMixin(object):
         virginity = Decimal(self.product and self.product.ipnr_virginity
             or 0) / 100
 
-        return round(float(quantity) * float(virginity), 3)
+        plastic_quantity = round(float(quantity) * float(virginity), 3)
+        if self.quantity and self.quantity < 0:
+            plastic_quantity = plastic_quantity * -1
+        return plastic_quantity
 
     @fields.depends('product')
     def on_change_with_plastic_fiscal_regime(self):
