@@ -103,7 +103,8 @@ class PlasticTaxLineMixin(object):
             or 0) / 100
 
         plastic_quantity = round(float(quantity) * float(virginity), 3)
-        if self.quantity and self.quantity < 0:
+        if (self.quantity and (self.quantity < 0 and plastic_quantity > 0)
+                or (self.quantity > 0 and plastic_quantity < 0)):
             plastic_quantity = plastic_quantity * -1
         return plastic_quantity
 
