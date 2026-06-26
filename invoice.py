@@ -34,7 +34,7 @@ class PlasticTaxMixin(object):
         removed = []
         lines = list(self.lines or [])
         for line in self.lines:
-            if line.manual_kg:
+            if getattr(line, 'manual_kg', None):
                 return []
             if line.product == plastic_product:
                 lines.remove(line)
